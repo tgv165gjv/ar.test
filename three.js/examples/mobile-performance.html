@@ -3,6 +3,10 @@
 <!-- three.js library -->
 <script src='vendor/three.js/build/three.min.js'></script>
 <script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
+<!-- 引入fbx模型加载库FBXLoader -->
+<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/loaders/FBXLoader.js"></script>
+<!-- 辅助文件 -->
+<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/libs/inflate.min.js"></script>
 <!-- ar.js -->
 <script src="../build/ar.js"></script>
 <script>
@@ -86,27 +90,33 @@
         // create atToolkitContext
 
         //加载原有转动小方块
-        var arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
-                detectionMode: 'mono',
-                maxDetectionRate: 30,
-                canvasWidth: 80 * 3,
-                canvasHeight: 60 * 3,
-            })
-            // initialize it
+        // var arToolkitContext = new THREEx.ArToolkitContext({
+        //         cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+        //         detectionMode: 'mono',
+        //         maxDetectionRate: 30,
+        //         canvasWidth: 80 * 3,
+        //         canvasHeight: 60 * 3,
+        //     })
+        //     //   初始化
         arToolkitContext.init(function onCompleted() {
-            // copy projection matrix to camera
+
             camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
         })
 
+        // // 每一帧上更新
+        // onRenderFcts.push(function() {
+        //         if (arToolkitSource.ready === false) return
 
-        // update artoolkit on every frame
-        onRenderFcts.push(function() {
-            if (arToolkitSource.ready === false) return
-
-            arToolkitContext.update(arToolkitSource.domElement)
+        //         arToolkitContext.update(arToolkitSource.domElement)
+        //     })
+        //加载数控模型
+        var loader = new THREE.FBXLoader(); //创建一个FBX加载器
+        loader.load("../data/data/camera_para.fbx", function(obj) {
+            // console.log(obj);//查看加载后返回的模型对象
+            scene.add(obj)
+                // 适当平移fbx模型位置
+            obj.translateY(0);
         })
-
 
         ////////////////////////////////////////////////////////////////////////////////
         //          Create a ArMarkerControls
