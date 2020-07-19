@@ -3,15 +3,15 @@
 <!-- three.js library -->
 <script src='vendor/three.js/build/three.min.js'></script>
 <script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
-<!-- 引入fbx模型加载库FBXLoader -->
-<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/loaders/FBXLoader.js"></script>
-<!-- 辅助文件 -->
-<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/libs/inflate.min.js"></script>
 <!-- ar.js -->
 <script src="../build/ar.js"></script>
 <script>
     THREEx.ArToolkitContext.baseURL = '../'
 </script>
+<!-- 引入fbx模型加载库FBXLoader -->
+<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/loaders/FBXLoader.js"></script>
+<!-- 辅助文件 -->
+<script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/libs/inflate.min.js"></script>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
     <div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
@@ -45,6 +45,7 @@
         //////////////////////////////////////////////////////////////////////////////////
         //		Initialize a basic camera
         //////////////////////////////////////////////////////////////////////////////////
+
         // Create a camera
         var camera = new THREE.Camera();
         scene.add(camera);
@@ -88,8 +89,6 @@
 
 
         // create atToolkitContext
-
-        加载原有转动小方块
         var arToolkitContext = new THREEx.ArToolkitContext({
                 cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
                 detectionMode: 'mono',
@@ -97,26 +96,19 @@
                 canvasWidth: 80 * 3,
                 canvasHeight: 60 * 3,
             })
-            //   初始化
+            // initialize it
         arToolkitContext.init(function onCompleted() {
-
+            // copy projection matrix to camera
             camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
         })
 
-        // 每一帧上更新
+        // update artoolkit on every frame
         onRenderFcts.push(function() {
-                if (arToolkitSource.ready === false) return
+            if (arToolkitSource.ready === false) return
 
-                arToolkitContext.update(arToolkitSource.domElement)
-            })
-            // 加载数控模型
-            // var loader = new THREE.FBXLoader(); //创建一个FBX加载器
-            // loader.load("../data/data/camera_para.dat", function(obj) {
-            //     // console.log(obj);//查看加载后返回的模型对象
-            //     scene.add(obj)
-            //         // 适当平移fbx模型位置
-            //     obj.translateY(0);
-            // })
+            arToolkitContext.update(arToolkitSource.domElement)
+        })
+
 
         ////////////////////////////////////////////////////////////////////////////////
         //          Create a ArMarkerControls
@@ -131,6 +123,7 @@
                 // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
         })
 
+        // build a smoothedControls
         var smoothedRoot = new THREE.Group()
         scene.add(smoothedRoot)
         var smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
