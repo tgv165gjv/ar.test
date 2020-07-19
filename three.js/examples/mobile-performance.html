@@ -91,7 +91,7 @@
         // create atToolkitContext
         //加载生成物
         var arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/test.fbx',
+                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
                 detectionMode: 'mono',
                 maxDetectionRate: 30,
                 canvasWidth: 80 * 3,
@@ -113,14 +113,14 @@
         })
 
         //初始化fbx模型
-        fbx_loader.load('../data/data/test.fbx', function(object) {
-            object.mixer = new THREE.AnimationMixer(object);
-            mixers.push(object.mixer);
-            var action = object.mixer.clipAction(object.animations[0]);
-            action.play();
-            object.scale.multiplyScalar(.5);
-            scene.add(object);
-        }, onProgress, onError);
+        // fbx_loader.load('../data/data/test.fbx', function(object) {
+        //     object.mixer = new THREE.AnimationMixer(object);
+        //     mixers.push(object.mixer);
+        //     var action = object.mixer.clipAction(object.animations[0]);
+        //     action.play();
+        //     object.scale.multiplyScalar(.5);
+        //     scene.add(object);
+        // }, onProgress, onError);
 
 
         ////////////////////////////////////////////////////////////////////////////////
