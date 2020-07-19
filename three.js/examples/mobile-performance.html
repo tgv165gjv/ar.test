@@ -90,38 +90,38 @@
 
         // // create atToolkitContext
         // // 加载生成物
-        // var arToolkitContext = new THREEx.ArToolkitContext({
-        //         cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
-        //         detectionMode: 'mono',
-        //         maxDetectionRate: 30,
-        //         canvasWidth: 80 * 3,
-        //         canvasHeight: 60 * 3,
-        //     })
-        //     // initialize it
-        //     //初始化
-        // arToolkitContext.init(function onCompleted() {
-        //     // copy projection matrix to camera
-        //     camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-        // })
+        var arToolkitContext = new THREEx.ArToolkitContext({
+                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+                detectionMode: 'mono',
+                maxDetectionRate: 30,
+                canvasWidth: 80 * 3,
+                canvasHeight: 60 * 3,
+            })
+            // initialize it
+            //初始化
+        arToolkitContext.init(function onCompleted() {
+            // copy projection matrix to camera
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+        })
 
-        // // update artoolkit on every frame
-        // //更新每一帧
-        // onRenderFcts.push(function() {
-        //     if (arToolkitSource.ready === false) return
+        // update artoolkit on every frame
+        //更新每一帧
+        onRenderFcts.push(function() {
+            if (arToolkitSource.ready === false) return
 
-        //     arToolkitContext.update(arToolkitSource.domElement)
-        // })
+            arToolkitContext.update(arToolkitSource.domElement)
+        })
 
         // 初始化fbx模型
-        var loader = new FBXLoader();
-        loader.load('../data/data/test.fbx', function(object) {
-            scene.add(object);
-        });
+        // var loader = new FBXLoader();
+        // loader.load('../data/data/test.fbx', function(object) {
+        //     scene.add(object);
+        // });
 
-        loader.init(function onCompleted() {
-            // copy projection matrix to camera
-            camera.projectionMatrix.copy(loader.getProjectionMatrix());
-        })
+        // loader.init(function onCompleted() {
+        //     // copy projection matrix to camera
+        //     camera.projectionMatrix.copy(loader.getProjectionMatrix());
+        // })
 
 
         ////////////////////////////////////////////////////////////////////////////////
