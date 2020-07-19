@@ -85,9 +85,9 @@
 
         // create atToolkitContext
 
-        //加载原有转动小方块
+        // 加载原有转动小方块
         // var arToolkitContext = new THREEx.ArToolkitContext({
-        //         cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/test.fbx',
+        //         cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/test.FBX',
         //         detectionMode: 'mono',
         //         maxDetectionRate: 30,
         //         canvasWidth: 80 * 3,
@@ -99,23 +99,37 @@
         //     camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
         // })
 
-        //加载数控vr模型
-        fbx_loader.load('../data/data/test.fbx', function(object) {
-
-            object.mixer = new THREE.AnimationMixer(object);
-            mixers.push(object.mixer);
-
-            var action = object.mixer.clipAction(object.animations[0]);
-            action.play();
-
-            object.scale.multiplyScalar(.5);
-            object.position.set(-3, 0, 0);
-
-            scene.add(object);
-        }, onProgress, onError);
-
-
-
+        //加载数控模型
+        var arToolkitContext = new THREE.FBXLoader({
+                cameraParametersUrl: new THREE.FBXLoader.baseURL + '../data/data/test.FBX',
+                detectionMode: 'mono',
+                maxDetectionRate: 30,
+                canvasWidth: 80 * 3,
+                canvasHeight: 60 * 3,
+            })
+            // initialize it
+        arToolkitContext.init(function onCompleted() {
+                // copy projection matrix to camera
+                camera.projectionMatrix.copy(FBXLoader.getProjectionMatrix());
+            })
+            //     //加载数控vr模型
+            // var loader = new THREE.FBXLoader();
+            // loader.load("../data/data/test.fbx", function(object) {
+            //     object.traverse(function(child) {
+            //         scope.mixers = object.mixer = new THREE.AnimationMixer(object);
+            //         var action = object.mixer.clipAction(object.animations[0]);
+            //         action.play();
+            //         if (child.isMesh) {
+            //             child.castShadow = true;
+            //             child.receiveShadow = true;
+            //         }
+            //     });
+            //     object.scale.set(0.5, 0.5, 0.5);
+            //     object.position.set(100, 120, 30);
+            //     scope.scene.add(object);
+            //     scope.personPre = object;
+            //     scope.referenceModel = object.children[1];
+            // });
 
         // update artoolkit on every frame
         onRenderFcts.push(function() {
